@@ -183,6 +183,20 @@ namespace Plug
         }
 
         /// <summary>
+        /// Clear all existing registrations from the container
+        /// </summary>
+        /// <param name="cleanup">Whether the garbage collector should be forced to reclaim used memory from registrations</param>
+        public void Flush(bool cleanup)
+        {
+            registrations.Clear();
+
+            if (cleanup)
+            {
+                GC.Collect(0, GCCollectionMode.Optimized);
+            }
+        }
+
+        /// <summary>
         /// Standard disposal implementation
         /// </summary>
         /// <param name="disposing"></param>

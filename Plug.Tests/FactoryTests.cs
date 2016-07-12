@@ -9,7 +9,6 @@ namespace Plug.Tests
     [TestClass]
     public class FactoryTests
     {
-
         private void BasicEqualityTest(IFactory factory)
         {
             var container = new Container();
