@@ -89,5 +89,13 @@ namespace Plug
 
             return Instance;
         }
+
+        ~Registration()
+        {
+            if (Instance != null && Instance is IDisposable)
+            {
+                ((IDisposable) Instance).Dispose();
+            }
+        } 
     }
 }

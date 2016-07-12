@@ -5,18 +5,30 @@ using System.Collections.Concurrent;
 
 namespace Plug
 {
-    public class Container
+    public class Container : IDisposable
     {
+        /// <summary>
+        /// Private field to handle disposal
+        /// </summary>
+        private bool disposedValue = false;
+
         /// <summary>
         /// Private field for storing registrations in the current container
         /// </summary>
         private readonly ConcurrentDictionary<Type, Registration> registrations;
 
+        /// <summary>
+        /// Create a new container to store registrations
+        /// </summary>
+        /// <param name="concurrencyLevel">The number of threads that can concurrently access the container's registrations</param>
         public Container(int concurrencyLevel)
         {
             registrations = new ConcurrentDictionary<Type, Registration>(concurrencyLevel, 0);
         }
 
+        /// <summary>
+        /// Create a new container to store registrations
+        /// </summary>
         public Container() : this(Environment.ProcessorCount * 2) { }
 
         /// <summary>
@@ -118,6 +130,24 @@ namespace Plug
         public T Resolve<T>()
         {
             return (T) Resolve(typeof(T));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    registrations.Clear();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }
