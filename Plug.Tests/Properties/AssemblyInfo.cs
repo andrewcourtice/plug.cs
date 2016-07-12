@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Plug")]
-[assembly: AssemblyDescription("Plug is a simple IoC container")]
+[assembly: AssemblyTitle("Plug.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Andrew Courtice")]
-[assembly: AssemblyProduct("Plug")]
-[assembly: AssemblyCopyright("Copyright © Andrew Courtice 2016")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Plug.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("83d76266-dbd0-41e0-b407-3be3b2e9d1ae")]
+[assembly: Guid("eddff59a-b74d-48f1-940d-127e744b81db")]
 
 // Version information for an assembly consists of the following four values:
 //

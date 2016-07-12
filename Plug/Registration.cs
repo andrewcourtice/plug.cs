@@ -46,10 +46,11 @@ namespace Plug
         /// </summary>
         /// <param name="registrationType">The dependency type of this registration (the interface type)</param>
         /// <param name="instanceType">The instance type of this registration</param>
-        private void ValidateRegistration(Type registrationType, Type instanceType)
+        private void ValidateRegistration(Type registrationType, Type instanceType, IFactory factory)
         {
             Validator.Required(registrationType, nameof(registrationType));
             Validator.Required(instanceType, nameof(instanceType));
+            Validator.Required(factory, nameof(factory));
 
             if (!registrationType.IsInterface)
             {
@@ -75,11 +76,9 @@ namespace Plug
         /// <param name="factory">The factory responsible for resolving this registration</param>
         public Registration(Type registrationType, Type instanceType, IFactory factory)
         {
-            ValidateRegistration(registrationType, instanceType);
-
-            Validator.Required(factory, nameof(factory));
+            ValidateRegistration(registrationType, instanceType, factory);
+                        
             Factory = factory;
-
             RegistrationType = registrationType;
             InstanceType = instanceType;
         }

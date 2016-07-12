@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container.cs" />
+    <Compile Include="ContainerConfiguration.cs" />
     <Compile Include="Exceptions\DuplicateRegistrationException.cs" />
     <Compile Include="Exceptions\InvalidTypeException.cs" />
     <Compile Include="Exceptions\NotAssignableFromException.cs" />
