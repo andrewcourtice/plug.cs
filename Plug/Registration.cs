@@ -1,6 +1,7 @@
 ﻿using System;
 using Plug.Factories;
 using Plug.Exceptions;
+using Plug.Helpers;
 
 namespace Plug
 {
@@ -47,6 +48,9 @@ namespace Plug
         /// <param name="instanceType">The instance type of this registration</param>
         private void ValidateRegistration(Type registrationType, Type instanceType)
         {
+            Validator.Required(registrationType, nameof(registrationType));
+            Validator.Required(instanceType, nameof(instanceType));
+
             if (!registrationType.IsInterface)
             {
                 throw new InvalidTypeException("Registration type must be an interface");
@@ -73,7 +77,9 @@ namespace Plug
         {
             ValidateRegistration(registrationType, instanceType);
 
+            Validator.Required(factory, nameof(factory));
             Factory = factory;
+
             RegistrationType = registrationType;
             InstanceType = instanceType;
         }
