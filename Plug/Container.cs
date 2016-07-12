@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Plug.Exceptions;
 using Plug.Factories;
-using Plug.Exceptions;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using Plug.Helpers;
+using System;
+using System.Collections.Concurrent;
 
 namespace Plug
 {

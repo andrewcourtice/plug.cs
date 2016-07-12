@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Plug.Factories
 {
@@ -11,7 +12,8 @@ namespace Plug.Factories
         {
             if (registration.Instance == null)
             {
-                registration.Instance = Activator.CreateInstance(registration.InstanceType);
+                var assemblyName = Assembly.GetAssembly(registration.InstanceType).FullName;
+                registration.Instance = Activator.CreateInstance(registration.Domain, assemblyName, registration.InstanceType.Name);
             }
         }
     }

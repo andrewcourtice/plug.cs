@@ -31,5 +31,11 @@ namespace Plug.Tests
         {
             BasicEqualityTest(new TransientFactory());
         }
+
+        [TestMethod]
+        public void TestCustomFactory()
+        {
+            BasicEqualityTest(new TransientFactory());
+        }
     }
 }

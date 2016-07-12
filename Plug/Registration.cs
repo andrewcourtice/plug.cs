@@ -1,6 +1,6 @@
-﻿using System;
-using Plug.Factories;
+﻿using Plug.Factories;
 using Plug.Helpers;
+using System;
 
 namespace Plug
 {
@@ -15,6 +15,8 @@ namespace Plug
         /// The factory responsible for resolving this registration
         /// </summary>
         public IFactory Factory { get; }
+
+        public AppDomain Domain { get; }
 
         /// <summary>
         /// A boxed reference to the current instance of the dependency
