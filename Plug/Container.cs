@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Plug.Factories;
 using Plug.Exceptions;
 using System.Collections.Concurrent;
@@ -13,12 +12,12 @@ namespace Plug
         /// </summary>
         private readonly ConcurrentDictionary<Type, Registration> registrations;
 
-        public Container()
+        public Container(int concurrencyLevel)
         {
-            var concurrencyLevel = Environment.ProcessorCount * 2;
-
             registrations = new ConcurrentDictionary<Type, Registration>(concurrencyLevel, 0);
         }
+
+        public Container() : this(Environment.ProcessorCount * 2) { }
 
         /// <summary>
         /// Register a new dependency
