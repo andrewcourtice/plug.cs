@@ -8,6 +8,7 @@ namespace Plug
         public int ConcurrencyLevel { get; set; }
         public AppDomain DefaultDomain { get; set; }
         public IFactory DefaultFactory { get; set; }
+        public bool StrictMode { get; set; }
 
         public ContainerConfiguration()
         {

@@ -168,7 +168,7 @@ namespace Plug
         public object Resolve(Type registrationType)
         {
             var registration = getRegistration(registrationType);
-            return registration.Resolve();
+            return registration.Resolve(this);
         }
 
         /// <summary>

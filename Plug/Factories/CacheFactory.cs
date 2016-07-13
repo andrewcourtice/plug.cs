@@ -1,4 +1,5 @@
 ﻿using System;
+using Plug.Core;
 
 namespace Plug.Factories
 {
@@ -15,7 +16,8 @@ namespace Plug.Factories
         {
             if (DateTime.UtcNow.Subtract(registration.LastResolutionDate).Ticks >= CacheInterval.Ticks)
             {
-                registration.Instance = Activator.CreateInstance(registration.InstanceType);
+                var instance = ObjectActivator.GetInstance(registration.InstanceType);
+                registration.Instance = instance();
             }
         }
     }

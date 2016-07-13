@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Plug.Core;
 
 namespace Plug.Factories
 {
@@ -9,7 +9,8 @@ namespace Plug.Factories
     {
         public virtual void Resolve(Registration registration)
         {
-            registration.Instance = Activator.CreateInstance(registration.InstanceType);
+            var instance = ObjectActivator.GetInstance(registration.InstanceType);
+            registration.Instance = instance();
         }
     }
 }

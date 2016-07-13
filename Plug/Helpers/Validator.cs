@@ -29,21 +29,21 @@ namespace Plug.Helpers
             {
                 throw new InvalidTypeException("Instance type must be a class");
             }
-
-            if (!registrationType.IsAssignableFrom(instanceType))
-            {
-                throw new NotAssignableFromException(registrationType, instanceType);
-            }
         }
 
-        internal static void ValidateInstance(object instance, Type instanceType)
+        internal static void ValidateInstance(object instance, Type registrationType, Type instanceType, bool strictMode)
         {
             if (instance == null)
             {
                 throw new NullReferenceException("Factories cannot resolve a null instance. Check the factory to ensure the instance of the registration is not being set to null.");
             }
 
-            if (instance.GetType() != instanceType)
+            if (!registrationType.IsAssignableFrom(instanceType))
+            {
+                throw new NotAssignableFromException(registrationType, instanceType);
+            }
+
+            if (strictMode && (instance.GetType() != instanceType))
             {
                 throw new InvalidCastException("The instance created by the factory does not match the instance type defined for this registration");
             }
