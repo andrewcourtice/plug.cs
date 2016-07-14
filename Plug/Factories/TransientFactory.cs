@@ -7,10 +7,10 @@ namespace Plug.Factories
     /// </summary>
     public class TransientFactory : IFactory
     {
-        public virtual void Resolve(Registration registration)
+        public virtual void Resolve(Registration registration, object[] args = null)
         {
             var instance = ObjectActivator.GetInstance(registration.InstanceType);
-            registration.Instance = instance();
+            registration.Instance = instance(args);
         }
     }
 }

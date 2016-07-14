@@ -1,8 +1,8 @@
 ﻿namespace Plug.Tests.Services
 {
-    internal interface IMessagingService
+    public interface IMessagingService
     {
-        string Message { get; set; }
+        ICommunicationsService CommunicationsService { get; }
 
         void SendMessage(string message);
     }

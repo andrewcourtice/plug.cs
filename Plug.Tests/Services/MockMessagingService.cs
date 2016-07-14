@@ -4,7 +4,7 @@ namespace Plug.Tests.Services
 {
     public class MockMessagingService : IMessagingService
     {
-        public string Message { get; set; }
+        public ICommunicationsService CommunicationsService { get; }
 
         public void SendMessage(string message)
         {

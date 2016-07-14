@@ -9,6 +9,6 @@ namespace Plug.Factories
         /// <typeparam name="T">The dependency type of the registration (the interface type)</typeparam>
         /// <param name="registration">The registration to resolve</param>
         /// <returns>An instance of the registration</returns>
-        void Resolve(Registration registration);
+        void Resolve(Registration registration, object[] args = null);
     }
 }

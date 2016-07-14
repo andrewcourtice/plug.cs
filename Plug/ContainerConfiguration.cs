@@ -9,6 +9,7 @@ namespace Plug
         public AppDomain DefaultDomain { get; set; }
         public IFactory DefaultFactory { get; set; }
         public bool StrictMode { get; set; }
+        public bool DeepResolution { get; set; }
 
         public ContainerConfiguration()
         {

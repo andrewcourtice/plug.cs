@@ -4,11 +4,16 @@ namespace Plug.Tests.Services
 {
     public class MessagingService : IMessagingService
     {
-        public string Message { get; set; }
+        public ICommunicationsService CommunicationsService { get; }
+
+        public MessagingService(ICommunicationsService communicationsService)
+        {
+            CommunicationsService = communicationsService;
+        }
 
         public void SendMessage(string message)
         {
-            Console.WriteLine(message);
+            CommunicationsService.Communicate(message);
         }
     }
 }

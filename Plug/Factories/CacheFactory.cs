@@ -12,12 +12,12 @@ namespace Plug.Factories
             CacheInterval = cacheInterval;
         }
 
-        public void Resolve(Registration registration)
+        public void Resolve(Registration registration, object[] args = null)
         {
             if (DateTime.UtcNow.Subtract(registration.LastResolutionDate).Ticks >= CacheInterval.Ticks)
             {
                 var instance = ObjectActivator.GetInstance(registration.InstanceType);
-                registration.Instance = instance();
+                registration.Instance = instance(args);
             }
         }
     }

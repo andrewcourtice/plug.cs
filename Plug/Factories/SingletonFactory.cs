@@ -7,12 +7,12 @@ namespace Plug.Factories
     /// </summary>
     public class SingletonFactory : IFactory
     {
-        public virtual void Resolve(Registration registration)
+        public virtual void Resolve(Registration registration, object[] args = null)
         {
             if (registration.Instance == null)
             {
                 var instance = ObjectActivator.GetInstance(registration.InstanceType);
-                registration.Instance = instance();
+                registration.Instance = (args == null ? instance() : instance(args));
             }
         }
     }

@@ -21,10 +21,10 @@ namespace Plug.Core
                 var index = Expression.Constant(i);
                 var parameterType = parameters[i].ParameterType;
 
-                var parameterAccessorExpression = Expression.ArrayIndex(parameterExpression, index);
-                var parameterCastExpression = Expression.Convert(parameterAccessorExpression, parameterType);
+                var accessorExpression = Expression.ArrayIndex(parameterExpression, index);
+                var castExpression = Expression.Convert(accessorExpression, parameterType);
 
-                argumentsExpression[i] = parameterCastExpression;
+                argumentsExpression[i] = castExpression;
             }
 
             var instantiator = Expression.New(constructorInfo, argumentsExpression);

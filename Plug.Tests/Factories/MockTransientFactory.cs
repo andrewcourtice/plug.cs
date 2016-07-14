@@ -6,7 +6,7 @@ namespace Plug.Tests.Factories
 {
     public class MockTransientFactory : MockFactory, IFactory
     {
-        public void Resolve(Registration registration)
+        public void Resolve(Registration registration, object[] args = null)
         {
             var instanceType = registration.InstanceType;
 
