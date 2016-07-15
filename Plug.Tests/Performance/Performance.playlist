@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="Plug.Tests.Performance.PerformanceTests.TestSingletonPerformance" /><Add Test="Plug.Tests.Performance.PerformanceTests.TestTransientPerformance" /><Add Test="Plug.Tests.Performance.PerformanceTests.TestNestedTransientPerformance" /><Add Test="Plug.Tests.Performance.PerformanceTests.TestNestedSingletonPerformance" /></Playlist>

@@ -1,5 +1,4 @@
 ﻿using Plug.Core;
-using System;
 
 namespace Plug.Factories
 {
@@ -15,12 +14,7 @@ namespace Plug.Factories
 
         public virtual object Resolve(Registration registration, object[] args = null)
         {
-            if (registration.HasInstance)
-            {
-                return null;
-            }
-
-            return registration.InstanceConstructor(args);
+            return registration.HasInstance ? null : registration.InstanceConstructor(args);
         }
     }
 }

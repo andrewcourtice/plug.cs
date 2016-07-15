@@ -53,13 +53,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CustomFactories\CustomFactoryTests.cs" />
-    <Compile Include="CustomFactories\Services\MockCustomFactoryService.cs" />
     <Compile Include="CustomFactories\Services\CustomFactoryService.cs" />
     <Compile Include="CustomFactories\Services\ICustomFactoryService.cs" />
     <Compile Include="Equality\Services\EqualityService.cs" />
     <Compile Include="Equality\Services\IEqualityService.cs" />
-    <Compile Include="CustomFactories\Factories\CustomFactory.cs" />
+    <Compile Include="CustomFactories\Factories\CacheFactory.cs" />
     <Compile Include="Equality\EqualityTests.cs" />
+    <Compile Include="Performance\Services\ChildService.cs" />
+    <Compile Include="Performance\Services\IChildService.cs" />
+    <Compile Include="Performance\Services\IParentService.cs" />
+    <Compile Include="Performance\Services\ParentService.cs" />
+    <Compile Include="Performance\PerformanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeepResolution\Services\ChildService.cs" />
     <Compile Include="DeepResolution\Services\IChildService.cs" />
