@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace Plug.Core
 {
-    public delegate object ActivatorInstance(params object[] args);
+    public delegate object InstanceConstructor(params object[] args);
 
-    public static class ObjectActivator
+    public static class Compiler
     {
-        public static ActivatorInstance GetInstance(Type instanceType)
+        public static InstanceConstructor CompileInstance(Type instanceType)
         {
             var constructorInfo = instanceType.GetConstructors().First();
             var parameters = constructorInfo.GetParameters();
@@ -28,9 +28,9 @@ namespace Plug.Core
             }
 
             var instantiator = Expression.New(constructorInfo, argumentsExpression);
-            var lambdaExpression = Expression.Lambda(typeof(ActivatorInstance), instantiator, parameterExpression);
+            var lambdaExpression = Expression.Lambda(typeof(InstanceConstructor), instantiator, parameterExpression);
            
-            return (ActivatorInstance) lambdaExpression.Compile();
+            return (InstanceConstructor) lambdaExpression.Compile();
         }
     }
 }

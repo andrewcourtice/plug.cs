@@ -1,4 +1,5 @@
-﻿using Plug.Exceptions;
+﻿using Plug.Core;
+using Plug.Exceptions;
 using Plug.Factories;
 using Plug.Helpers;
 using System;
@@ -12,6 +13,7 @@ namespace Plug
     public class Registration
     {
         private readonly Scope scope;
+        private object instance;
         private DateTime lastResolutionDate;
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace Plug
         /// <summary>
         /// A boxed reference to the current instance of the dependency
         /// </summary>
-        public object Instance { get; set; }
+        public InstanceConstructor InstanceConstructor { get; }
 
         /// <summary>
         /// The type of this registration (the type of the interface)
@@ -47,6 +49,11 @@ namespace Plug
             get { return lastResolutionDate; }
         }
 
+        public bool HasInstance
+        {
+            get { return instance != null; }
+        }
+
         /// <summary>
         /// A class to store information about a dependency
         /// </summary>
@@ -59,6 +66,8 @@ namespace Plug
             Factory = factory;
             RegistrationType = registrationType;
             InstanceType = instanceType;
+
+            InstanceConstructor = factory.GenerateInstanceConstructor(this);
         }
 
         /// <summary>
@@ -116,13 +125,18 @@ namespace Plug
         public object Resolve(Container container)
         {
             var args = ResolveDependencies(container);
+            var resolution = Factory.Resolve(this, args);
 
-            Factory.Resolve(this, args);
+            if (resolution != null)
+            {
+                instance = resolution;
+            }
+
             lastResolutionDate = DateTime.UtcNow;
 
-            Validator.ValidateInstance(Instance, RegistrationType, InstanceType, container.Configuration.StrictMode);
+            Validator.ValidateInstance(instance, RegistrationType, InstanceType, container.Configuration.StrictMode);
 
-            return Instance;
+            return instance;
         }
 
         /// <summary>
@@ -131,9 +145,9 @@ namespace Plug
         /// </summary>
         ~Registration()
         {
-            if (Instance != null && Instance is IDisposable)
+            if (instance != null && instance is IDisposable)
             {
-                ((IDisposable)Instance).Dispose();
+                ((IDisposable) instance).Dispose();
             }
         }
     }

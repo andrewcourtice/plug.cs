@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Plug.Factories;
+using Plug.Core;
 
 namespace Plug.Tests.Factories
 {
     public class MockSingletonFactory : MockFactory, IFactory
     {
-        public void Resolve(Registration registration, object[] args = null)
+        public InstanceConstructor GenerateInstanceConstructor(Registration registration)
         {
             var instanceType = registration.InstanceType;
 
@@ -15,10 +15,17 @@ namespace Plug.Tests.Factories
                 instanceType = mockDependencies.Single(md => md.Key == registration.RegistrationType).Value;
             }
 
-            if (registration.Instance == null)
+            return Compiler.CompileInstance(instanceType);
+        }
+
+        public object Resolve(Registration registration, object[] args = null)
+        {
+            if (registration.HasInstance)
             {
-                registration.Instance = Activator.CreateInstance(instanceType);
+                return null;
             }
+
+            return registration.InstanceConstructor(args);
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using Plug.Core;
 using Plug.Factories;
 
 namespace Plug.Tests.Factories
 {
     public class MockTransientFactory : MockFactory, IFactory
     {
-        public void Resolve(Registration registration, object[] args = null)
+        public InstanceConstructor GenerateInstanceConstructor(Registration registration)
         {
             var instanceType = registration.InstanceType;
 
@@ -15,7 +16,12 @@ namespace Plug.Tests.Factories
                 instanceType = mockDependencies.Single(md => md.Key == registration.RegistrationType).Value;
             }
 
-            registration.Instance = Activator.CreateInstance(instanceType);
+            return Compiler.CompileInstance(instanceType);
+        }
+
+        public object Resolve(Registration registration, object[] args = null)
+        {
+            return registration.InstanceConstructor(args);
         }
     }
 }

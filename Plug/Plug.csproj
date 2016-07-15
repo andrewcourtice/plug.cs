@@ -42,13 +42,12 @@
   <ItemGroup>
     <Compile Include="Container.cs" />
     <Compile Include="ContainerConfiguration.cs" />
-    <Compile Include="Core\ObjectActivator.cs" />
+    <Compile Include="Core\Compiler.cs" />
     <Compile Include="Exceptions\DuplicateRegistrationException.cs" />
     <Compile Include="Exceptions\InvalidTypeException.cs" />
     <Compile Include="Exceptions\NotAssignableFromException.cs" />
     <Compile Include="Exceptions\NotRegisteredException.cs" />
     <Compile Include="Extensions\RegistrationExtensions.cs" />
-    <Compile Include="Factories\CacheFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\SingletonFactory.cs" />
     <Compile Include="Factories\TransientFactory.cs" />

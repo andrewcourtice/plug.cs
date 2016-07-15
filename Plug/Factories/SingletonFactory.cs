@@ -1,4 +1,5 @@
 ﻿using Plug.Core;
+using System;
 
 namespace Plug.Factories
 {
@@ -7,13 +8,19 @@ namespace Plug.Factories
     /// </summary>
     public class SingletonFactory : IFactory
     {
-        public virtual void Resolve(Registration registration, object[] args = null)
+        public virtual InstanceConstructor GenerateInstanceConstructor(Registration registration)
         {
-            if (registration.Instance == null)
+            return Compiler.CompileInstance(registration.InstanceType);
+        }
+
+        public virtual object Resolve(Registration registration, object[] args = null)
+        {
+            if (registration.HasInstance)
             {
-                var instance = ObjectActivator.GetInstance(registration.InstanceType);
-                registration.Instance = (args == null ? instance() : instance(args));
+                return null;
             }
+
+            return registration.InstanceConstructor(args);
         }
     }
 }
