@@ -29,7 +29,7 @@ namespace Plug.Core
 
             var instantiator = Expression.New(constructorInfo, argumentsExpression);
             var lambdaExpression = Expression.Lambda(typeof(InstanceConstructor), instantiator, parameterExpression);
-           
+
             return (InstanceConstructor) lambdaExpression.Compile();
         }
     }

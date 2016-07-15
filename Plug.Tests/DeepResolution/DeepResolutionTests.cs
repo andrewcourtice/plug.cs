@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plug.Factories;
-using Plug.Tests.Services;
+using Plug.Tests.DeepResolution.Services;
 using Plug.Exceptions;
 
 namespace Plug.Tests
@@ -24,12 +24,12 @@ namespace Plug.Tests
         {
             var container = GetContainer();
 
-            container.Register<ICommunicationsService, CommunicationsService>(new SingletonFactory());
-            container.Register<IMessagingService, MessagingService>(new SingletonFactory());
+            container.Register<IChildService, ChildService>(new SingletonFactory());
+            container.Register<IParentService, ParentService>(new SingletonFactory());
 
-            var messagingService = container.Resolve<IMessagingService>();
+            var parentService = container.Resolve<IParentService>();
 
-            Assert.IsNotNull(messagingService.CommunicationsService);
+            Assert.IsNotNull(parentService.ChildService);
         }
 
         [TestMethod]
@@ -38,9 +38,9 @@ namespace Plug.Tests
         {
             var container = GetContainer();
 
-            container.Register<IMessagingService, MessagingService>(new SingletonFactory());
+            container.Register<IParentService, ParentService>(new SingletonFactory());
 
-            var messagingService = container.Resolve<IMessagingService>();
+            var messagingService = container.Resolve<IParentService>();
 
             Assert.Fail("Should not reach this point");
         }

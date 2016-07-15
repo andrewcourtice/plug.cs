@@ -12,46 +12,57 @@ namespace Plug
     /// </summary>
     public class Registration
     {
-        private readonly Scope scope;
         private object instance;
-        private DateTime lastResolutionDate;
 
         /// <summary>
         /// The factory responsible for resolving this registration
         /// </summary>
         public IFactory Factory { get; }
 
-        public AppDomain Domain
-        {
-            get { return scope != null ? scope.Domain : AppDomain.CurrentDomain; }
-        }
-
-        /// <summary>
-        /// A boxed reference to the current instance of the dependency
-        /// </summary>
-        public InstanceConstructor InstanceConstructor { get; }
-
         /// <summary>
         /// The type of this registration (the type of the interface)
         /// </summary>
         public Type RegistrationType { get; }
 
+        public InstanceConstructor InstanceConstructor { get; private set; }
+
         /// <summary>
         /// The instance type of this registration
         /// </summary>
-        public Type InstanceType { get; }
+        public Type InstanceType { get; private set; }
+
+        /// <summary>
+        /// A boxed reference to the current instance of the dependency
+        /// </summary>
+        public object Instance
+        {
+            get
+            {
+                return instance;
+            }
+            private set
+            {
+                instance = value;
+                LastResolutionDate = DateTime.UtcNow;
+            }
+        }
 
         /// <summary>
         /// The time (UTC) the last instance was resolved
         /// </summary>
-        public DateTime LastResolutionDate
-        {
-            get { return lastResolutionDate; }
-        }
+        public DateTime LastResolutionDate { get; private set; }
 
         public bool HasInstance
         {
-            get { return instance != null; }
+            get { return Instance != null; }
+        }
+
+        public void Update(Type instanceType)
+        {
+            Validator.ValidateRegistration(RegistrationType, instanceType, Factory);
+
+            InstanceType = instanceType;
+            InstanceConstructor = Factory.GenerateInstanceConstructor(this);
         }
 
         /// <summary>
@@ -61,13 +72,10 @@ namespace Plug
         /// <param name="factory">The factory responsible for resolving this registration</param>
         public Registration(Type registrationType, Type instanceType, IFactory factory)
         {
-            Validator.ValidateRegistration(registrationType, instanceType, factory);
-
             Factory = factory;
             RegistrationType = registrationType;
-            InstanceType = instanceType;
 
-            InstanceConstructor = factory.GenerateInstanceConstructor(this);
+            Update(instanceType);
         }
 
         /// <summary>
@@ -99,8 +107,8 @@ namespace Plug
         /// <returns></returns>
         private object[] ResolveDependencies(Container container)
         {
-            var instanceConstructor = InstanceType.GetConstructors().First();
-            var constructorParameters = instanceConstructor.GetParameters();
+            var constructorInfo = InstanceType.GetConstructors().First();
+            var constructorParameters = constructorInfo.GetParameters();
 
             var resolvedParameters = new object[constructorParameters.Length];
 
@@ -129,14 +137,12 @@ namespace Plug
 
             if (resolution != null)
             {
-                instance = resolution;
+               Instance = resolution;
             }
 
-            lastResolutionDate = DateTime.UtcNow;
+            Validator.ValidateInstance(Instance, RegistrationType, InstanceType, container.Configuration.StrictMode);
 
-            Validator.ValidateInstance(instance, RegistrationType, InstanceType, container.Configuration.StrictMode);
-
-            return instance;
+            return Instance;
         }
 
         /// <summary>

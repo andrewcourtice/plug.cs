@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 
 namespace Plug
 {
-    public class Container : IDisposable
+    public class Container : MarshalByRefObject, IDisposable
     {
         /// <summary>
         /// Private field to handle disposal
@@ -41,11 +41,31 @@ namespace Plug
         /// </summary>
         public Container() : this(new ContainerConfiguration()) { }
 
+        public static Container NewContainer()
+        {
+            return new Container();
+        }
+
+        public static Container NewContainer(ContainerConfiguration configuration)
+        {
+            return new Container(configuration);
+        }
+
+        public static Container NewContainer(Scope scope)
+        {
+            return scope.CreateObject<Container>();
+        }
+
+        public static Container NewContainer(Scope scope, ContainerConfiguration configuration)
+        {
+            return scope.CreateObject<Container>(configuration);
+        }
+
         /// <summary>
         /// Register a new dependency
         /// </summary>
         /// <param name="registration">The registration object to register</param>
-        public void Register(Registration registration)
+        private void AddRegistration(Registration registration)
         {
             var isRegistered = registrations.TryAdd(registration.RegistrationType, registration);
 
@@ -61,10 +81,11 @@ namespace Plug
         /// <param name="registrationType">The dependency type of this registration (the interface type)</param>
         /// <param name="instanceType">The instance type of this registration</param>
         /// <param name="factory">The factory responsible for resolving this registration</param>
-        public void Register(Type registrationType, Type instanceType, IFactory factory)
+        public Registration Register(Type registrationType, Type instanceType, IFactory factory)
         {
             var registration = new Registration(registrationType, instanceType, factory ?? Configuration.DefaultFactory);
-            Register(registration);
+            AddRegistration(registration);
+            return registration;
         }
 
         /// <summary>
@@ -72,9 +93,9 @@ namespace Plug
         /// </summary>
         /// <param name="registrationType">The dependency type of this registration (the interface type)</param>
         /// <param name="instanceType">The instance type of this registration</param>
-        public void Register(Type registrationType, Type instanceType)
+        public Registration Register(Type registrationType, Type instanceType)
         {
-            Register(registrationType, instanceType, null);
+            return Register(registrationType, instanceType, null);
         }
 
         /// <summary>
@@ -83,9 +104,9 @@ namespace Plug
         /// <typeparam name="T">The dependency type of this registration (the interface type)</typeparam>
         /// <param name="instanceType">The instance type of this registration</param>
         /// <param name="factory">The factory responsible for resolving this registration</param>
-        public void Register<T>(Type instanceType, IFactory factory)
+        public Registration Register<T>(Type instanceType, IFactory factory)
         {
-            Register(typeof(T), instanceType, factory);
+            return Register(typeof(T), instanceType, factory);
         }
 
         /// <summary>
@@ -93,9 +114,9 @@ namespace Plug
         /// </summary>
         /// <typeparam name="T">The dependency type of this registration (the interface type)</typeparam>
         /// <param name="instanceType">The instance type of this registration</param>
-        public void Register<T>(Type instanceType)
+        public Registration Register<T>(Type instanceType)
         {
-            Register(typeof(T), instanceType, null);
+            return Register(typeof(T), instanceType, null);
         }
 
         /// <summary>
@@ -104,9 +125,9 @@ namespace Plug
         /// <typeparam name="TD">The dependency type of this registration (the interface type)</typeparam>
         /// <typeparam name="TI">The instance type of this registration</typeparam>
         /// <param name="factory">The factory responsible for resolving this registration</param>
-        public void Register<TD, TI>(IFactory factory)
+        public Registration Register<TD, TI>(IFactory factory) where TI : class
         {
-            Register<TD>(typeof(TI), factory);
+            return Register<TD>(typeof(TI), factory);
         }
 
         /// <summary>
@@ -114,9 +135,9 @@ namespace Plug
         /// </summary>
         /// <typeparam name="TD">The dependency type of this registration (the interface type)</typeparam>
         /// <typeparam name="TI">The instance type of this registration</typeparam>
-        public void Register<TD, TI>()
+        public Registration Register<TD, TI>() where TI : class
         {
-            Register<TD>(typeof(TI), null);
+            return Register<TD>(typeof(TI), null);
         }
 
         /// <summary>
@@ -178,7 +199,7 @@ namespace Plug
         /// <returns>The instance of the registration generated by it's assigned factory</returns>
         public T Resolve<T>()
         {
-            return (T) Resolve(typeof(T));
+            return (T)Resolve(typeof(T));
         }
 
         /// <summary>
