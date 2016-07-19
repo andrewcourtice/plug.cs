@@ -1,11 +1,12 @@
 ﻿using Plug.Core;
+using System;
 
 namespace Plug.Factories
 {
     /// <summary>
     /// A simple factory for creating singleton classes
     /// </summary>
-    public class SingletonFactory : IFactory
+    public class SingletonFactory : MarshalByRefObject, IFactory
     {
         public virtual InstanceConstructor GenerateInstanceConstructor(Registration registration)
         {

@@ -70,6 +70,9 @@
     <Compile Include="DeepResolution\Services\IParentService.cs" />
     <Compile Include="DeepResolution\Services\ParentService.cs" />
     <Compile Include="DeepResolution\DeepResolutionTests.cs" />
+    <Compile Include="Scopes\Services\IScopedService.cs" />
+    <Compile Include="Scopes\Services\ScopedService.cs" />
+    <Compile Include="Scopes\ScopedTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plug\Plug.csproj">

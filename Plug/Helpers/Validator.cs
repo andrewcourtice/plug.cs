@@ -1,6 +1,8 @@
 ﻿using Plug.Factories;
 using Plug.Exceptions;
 using System;
+using Plug.Core;
+using System.Linq;
 
 namespace Plug.Helpers
 {
@@ -47,6 +49,13 @@ namespace Plug.Helpers
             {
                 throw new InvalidCastException("The instance created by the factory does not match the instance type defined for this registration");
             }
+        }
+
+        internal static void ValidateContainer(Container container)
+        {
+            var dependencyGraph = new CyclicDependencyGraph<Registration>(container.Registrations.ToList());
+
+            dependencyGraph.Sort(r => r.GetDependencies());
         }
     }
 }

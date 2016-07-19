@@ -1,11 +1,12 @@
 ﻿using Plug.Core;
+using System;
 
 namespace Plug.Factories
 {
     /// <summary>
     /// A simple factory for creating transient instances of a registration
     /// </summary>
-    public class TransientFactory : IFactory
+    public class TransientFactory : MarshalByRefObject, IFactory
     {
         public virtual InstanceConstructor GenerateInstanceConstructor(Registration registration)
         {

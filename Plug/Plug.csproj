@@ -51,6 +51,7 @@
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\SingletonFactory.cs" />
     <Compile Include="Factories\TransientFactory.cs" />
+    <Compile Include="Core\CyclicDependencyGraph.cs" />
     <Compile Include="Helpers\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.cs" />

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plug.Factories;
 using Plug.Tests.DeepResolution.Services;
 using Plug.Exceptions;
+using System.Diagnostics;
 
 namespace Plug.Tests
 {
