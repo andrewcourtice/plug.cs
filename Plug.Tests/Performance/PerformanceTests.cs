@@ -13,8 +13,9 @@ namespace Plug.Tests.Performance
         {
             var container = new Container(configuration);
 
-            container.Register<IChildService, ChildService>(factory);
-            container.Register<IParentService, ParentService>(factory);
+            container.Register<IChildService, ChildService>(factory)
+                     .Register<IParentService, ParentService>(factory)
+                     .Validate();
 
             var stopWatch = Stopwatch.StartNew();
 

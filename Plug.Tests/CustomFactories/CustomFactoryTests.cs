@@ -17,7 +17,8 @@ namespace Plug.Tests.CustomFactories
             var cacheTime = new TimeSpan(0, 0, 10);
             var factory = new CacheFactory(cacheTime);
    
-            var registration = container.Register<ICustomFactoryService, CustomFactoryService>(factory);
+            container.Register<ICustomFactoryService, CustomFactoryService>(factory);
+            container.Validate();
 
             var service1 = container.Resolve<ICustomFactoryService>();
             Thread.Sleep(10001);

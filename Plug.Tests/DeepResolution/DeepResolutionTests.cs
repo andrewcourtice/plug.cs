@@ -27,7 +27,8 @@ namespace Plug.Tests
             var factory = new SingletonFactory();
 
             container.Register<IChildService, ChildService>(factory)
-                     .Register<IParentService, ParentService>(factory);
+                     .Register<IParentService, ParentService>(factory)
+                     .Validate();
 
             var parentService = container.Resolve<IParentService>();
 
@@ -41,6 +42,7 @@ namespace Plug.Tests
             var container = GetContainer();
 
             container.Register<IParentService, ParentService>(new SingletonFactory());
+            container.Validate();
 
             var messagingService = container.Resolve<IParentService>();
 

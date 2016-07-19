@@ -15,6 +15,7 @@ namespace Plug.Tests.Scopes
             var container = Container.NewContainer(scope);
 
             container.Register<IScopedService, ScopedService>(new SingletonFactory());
+            container.Validate();
 
             var scopedService = container.Resolve<IScopedService>();
 
