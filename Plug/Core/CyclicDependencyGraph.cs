@@ -21,7 +21,10 @@ namespace Plug.Core
 
         private void VisitNode(T node)
         {
-            if (visitedNodes[node])
+            bool visiting;
+            var visited = visitedNodes.TryGetValue(node, out visiting);
+
+            if (visited && visiting)
             {
                 throw new Exception("Cyclic Dependency Detected");
             }

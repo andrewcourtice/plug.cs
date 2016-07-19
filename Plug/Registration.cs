@@ -62,9 +62,10 @@ namespace Plug
 
         public void Update(Type instanceType)
         {
-            Validator.ValidateRegistration(RegistrationType, instanceType, Factory);
-
             InstanceType = instanceType;
+
+            Validator.ValidateRegistration(this);
+
             InstanceConstructor = Factory.GenerateInstanceConstructor(this);
         }
 

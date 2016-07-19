@@ -24,9 +24,10 @@ namespace Plug.Tests
         public void TestRegisteredDeepResolution()
         {
             var container = GetContainer();
+            var factory = new SingletonFactory();
 
-            container.Register<IChildService, ChildService>(new SingletonFactory());
-            container.Register<IParentService, ParentService>(new SingletonFactory());
+            container.Register<IChildService, ChildService>(factory)
+                     .Register<IParentService, ParentService>(factory);
 
             var parentService = container.Resolve<IParentService>();
 
