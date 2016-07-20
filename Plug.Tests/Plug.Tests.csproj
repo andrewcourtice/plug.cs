@@ -55,6 +55,13 @@
     <Compile Include="CustomFactories\CustomFactoryTests.cs" />
     <Compile Include="CustomFactories\Services\CustomFactoryService.cs" />
     <Compile Include="CustomFactories\Services\ICustomFactoryService.cs" />
+    <Compile Include="CyclicDependencies\Services\IPrimaryService.cs" />
+    <Compile Include="CyclicDependencies\Services\ISecondaryService.cs" />
+    <Compile Include="CyclicDependencies\Services\ITertiaryService.cs" />
+    <Compile Include="CyclicDependencies\Services\PrimaryService.cs" />
+    <Compile Include="CyclicDependencies\Services\SecondaryService.cs" />
+    <Compile Include="CyclicDependencies\Services\TertiaryService.cs" />
+    <Compile Include="CyclicDependencies\CyclicDependencyTests.cs" />
     <Compile Include="Equality\Services\EqualityService.cs" />
     <Compile Include="Equality\Services\IEqualityService.cs" />
     <Compile Include="CustomFactories\Factories\CacheFactory.cs" />

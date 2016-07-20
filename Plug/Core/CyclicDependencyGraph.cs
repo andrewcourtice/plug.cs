@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plug.Exceptions;
+using System;
 using System.Collections.Generic;
 
 
@@ -6,30 +7,30 @@ namespace Plug.Core
 {
     public class CyclicDependencyGraph<T>
     {
-        private readonly IList<T> nodes;
-        private readonly IList<T> sortedNodes;
-        private readonly IDictionary<T, bool> visitedNodes;
+        private readonly IList<T> _nodes;
+        private readonly IList<T> _sortedNodes;
+        private readonly IDictionary<T, bool> _visitedNodes;
 
         private Func<T, IEnumerable<T>> resolver;
 
-        public CyclicDependencyGraph(IList<T> edges)
+        public CyclicDependencyGraph(IList<T> nodes)
         {
-            nodes = edges;
-            sortedNodes = new List<T>();
-            visitedNodes = new Dictionary<T, bool>();
+            _nodes = nodes;
+            _sortedNodes = new List<T>();
+            _visitedNodes = new Dictionary<T, bool>();
         }
 
         private void VisitNode(T node)
         {
             bool visiting;
-            var visited = visitedNodes.TryGetValue(node, out visiting);
+            var visited = _visitedNodes.TryGetValue(node, out visiting);
 
             if (visited && visiting)
             {
-                throw new Exception("Cyclic Dependency Detected");
+                throw new ClosedLoopException<T>(node);
             }
 
-            visitedNodes[node] = true;
+            _visitedNodes[node] = true;
 
             var dependencies = resolver(node);
             if (dependencies != null)
@@ -40,20 +41,20 @@ namespace Plug.Core
                 }
             }
 
-            visitedNodes[node] = false;
-            sortedNodes.Add(node);
+            _visitedNodes[node] = false;
+            _sortedNodes.Add(node);
         }
 
         public IList<T> Sort(Func<T, IEnumerable<T>> dependencyResolver)
         {
             resolver = dependencyResolver;
 
-            foreach (var node in nodes)
+            foreach (var node in _nodes)
             {
                 VisitNode(node);
             }
 
-            return sortedNodes;
+            return _sortedNodes;
         }
     }
 }

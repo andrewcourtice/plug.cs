@@ -43,9 +43,12 @@ namespace Plug.Helpers
 
         internal static void ValidateContainer(Container container)
         {
-            var dependencyGraph = new CyclicDependencyGraph<Registration>(container.Registrations.ToList());
+            if (container.Configuration.DeepResolution)
+            {
+                var dependencyGraph = new CyclicDependencyGraph<Registration>(container.Registrations.ToList());
 
-            dependencyGraph.Sort(r => r.GetDependencies());
+                dependencyGraph.Sort(r => r.GetDependencies());
+            }
 
             ValidateRegistrations(container);
         }

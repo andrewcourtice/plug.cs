@@ -15,6 +15,9 @@ namespace Plug
     {
         private object instance;
 
+        /// <summary>
+        /// The container this registration is registered on
+        /// </summary>
         public Container Container { get; }
 
         /// <summary>
@@ -27,6 +30,9 @@ namespace Plug
         /// </summary>
         public Type RegistrationType { get; }
 
+        /// <summary>
+        /// The constructor delegate for this registration's instance type
+        /// </summary>
         public InstanceConstructor InstanceConstructor { get; private set; }
 
         /// <summary>
@@ -55,11 +61,18 @@ namespace Plug
         /// </summary>
         public DateTime LastResolutionDate { get; private set; }
 
+        /// <summary>
+        /// A boolean to indicate whether the current registration has a resolved instance
+        /// </summary>
         public bool HasInstance
         {
             get { return Instance != null; }
         }
 
+        /// <summary>
+        /// Update the instance type of this registration. This will cause the current registration to be re-validated.
+        /// </summary>
+        /// <param name="instanceType"></param>
         public void Update(Type instanceType)
         {
             InstanceType = instanceType;

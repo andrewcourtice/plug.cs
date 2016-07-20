@@ -19,7 +19,7 @@ namespace Plug
         /// <summary>
         /// Private field for storing registrations in the current container
         /// </summary>
-        private readonly ConcurrentDictionary<Type, Registration> registrations;
+        private readonly ConcurrentDictionary<Type, Registration> _registrations;
 
         /// <summary>
         /// The configuration of this container
@@ -31,7 +31,7 @@ namespace Plug
         /// </summary>
         public ICollection<Registration> Registrations
         {
-            get { return registrations.Values; }
+            get { return _registrations.Values; }
         }
 
         public bool IsValid
@@ -49,7 +49,7 @@ namespace Plug
 
             Configuration = configuration;
 
-            registrations = new ConcurrentDictionary<Type, Registration>(configuration.ConcurrencyLevel, 0);
+            _registrations = new ConcurrentDictionary<Type, Registration>(configuration.ConcurrencyLevel, 0);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Plug
         /// <param name="registration">The registration object to register</param>
         private void AddRegistration(Registration registration)
         {
-            var isRegistered = registrations.TryAdd(registration.RegistrationType, registration);
+            var isRegistered = _registrations.TryAdd(registration.RegistrationType, registration);
 
             if (!isRegistered)
             {
@@ -180,7 +180,7 @@ namespace Plug
         public Registration Remove(Type registrationType)
         {
             Registration registration;
-            registrations.TryRemove(registrationType, out registration);
+            _registrations.TryRemove(registrationType, out registration);
             return registration;
         }
 
@@ -203,7 +203,7 @@ namespace Plug
         {
             Registration registration;
 
-            var isRegistered = registrations.TryGetValue(registrationType, out registration);
+            var isRegistered = _registrations.TryGetValue(registrationType, out registration);
 
             if (!isRegistered || registration == null)
             {
@@ -264,7 +264,7 @@ namespace Plug
         /// <param name="cleanup">Whether the garbage collector should be forced to reclaim used memory from registrations</param>
         public void Flush(bool cleanup)
         {
-            registrations.Clear();
+            _registrations.Clear();
 
             if (cleanup)
             {
@@ -282,7 +282,7 @@ namespace Plug
             {
                 if (disposing)
                 {
-                    registrations.Clear();
+                    _registrations.Clear();
                 }
 
                 disposedValue = true;

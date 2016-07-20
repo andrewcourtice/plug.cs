@@ -5,12 +5,12 @@ namespace Plug
 {
     public class Scope
     {
-        private readonly Guid domainKey;
-        private readonly AppDomain domain;
+        private readonly Guid _domainKey;
+        private readonly AppDomain _domain;
 
         public Scope()
         {           
-            domainKey = Guid.NewGuid();
+            _domainKey = Guid.NewGuid();
             var domainSetup = new AppDomainSetup()
             {
                 ApplicationBase = Environment.CurrentDirectory
@@ -18,19 +18,19 @@ namespace Plug
 
             var domainEvidence = AppDomain.CurrentDomain.Evidence;
 
-            domain = AppDomain.CreateDomain(domainKey.ToString(), domainEvidence, domainSetup);
+            _domain = AppDomain.CreateDomain(_domainKey.ToString(), domainEvidence, domainSetup);
         }
 
         public object CreateObject(Type objectType)
         {
             var assemblyName = Assembly.GetExecutingAssembly().FullName;
-            return domain.CreateInstanceAndUnwrap(objectType.Assembly.FullName, objectType.FullName);
+            return _domain.CreateInstanceAndUnwrap(objectType.Assembly.FullName, objectType.FullName);
         }
 
         public object CreateObject(Type objectType, params object[] args)
         {
             var assemblyName = Assembly.GetExecutingAssembly().FullName;
-            return domain.CreateInstanceAndUnwrap(objectType.Assembly.FullName, objectType.FullName, false, BindingFlags.Default, null, args, null, null);
+            return _domain.CreateInstanceAndUnwrap(objectType.Assembly.FullName, objectType.FullName, false, BindingFlags.Default, null, args, null, null);
         }
 
         public T CreateObject<T>()
@@ -45,9 +45,9 @@ namespace Plug
 
         ~Scope()
         {
-            if (!domain.IsFinalizingForUnload())
+            if (!_domain.IsFinalizingForUnload())
             {
-                AppDomain.Unload(domain);
+                AppDomain.Unload(_domain);
             }
         }
     }

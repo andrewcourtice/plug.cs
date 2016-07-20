@@ -11,11 +11,11 @@ namespace Plug.Tests.Scopes
         [TestMethod]
         public void TestScope()
         {
-            var scope = new Scope();
-            var container = Container.NewContainer(scope);
+            //var scope = new Scope();
+            var container = Container.NewContainer();
 
-            container.Register<IScopedService, ScopedService>(new SingletonFactory());
-            container.Validate();
+            container.Register<IScopedService, ScopedService>(new SingletonFactory())
+                     .Validate();
 
             var scopedService = container.Resolve<IScopedService>();
 
