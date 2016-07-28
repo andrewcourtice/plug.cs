@@ -9,6 +9,9 @@ namespace Plug.Tests.CyclicDependencies
     [TestClass]
     public class CyclicDependencyTests
     {
+        /// <summary>
+        /// Testing for the existence of a closed loop in the container
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ClosedLoopException<Registration>))]
         public void TestCyclicDependecy()
@@ -23,6 +26,10 @@ namespace Plug.Tests.CyclicDependencies
 
             container.Register<IPrimaryService, PrimaryService>(factory)
                      .Register<ISecondaryService, SecondaryService>(factory)
+
+                     // Tertiary service has a reference to primary service.
+                     // This is a closed loop and should cause a ClosedLoopException
+                     // when validating the container
                      .Register<ITertiaryService, TertiaryService>(factory)
                      .Validate();
 

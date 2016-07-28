@@ -80,6 +80,9 @@
     <Compile Include="Scopes\Services\IScopedService.cs" />
     <Compile Include="Scopes\Services\ScopedService.cs" />
     <Compile Include="Scopes\ScopedTests.cs" />
+    <Compile Include="Validation\Services\IValidationService.cs" />
+    <Compile Include="Validation\Services\ValidationService.cs" />
+    <Compile Include="Validation\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plug\Plug.csproj">

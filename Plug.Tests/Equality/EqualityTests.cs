@@ -12,8 +12,8 @@ namespace Plug.Tests.Equality
         {
             var container = new Container();
 
-            container.Register<IEqualityService, EqualityService>(new SingletonFactory());
-            container.Validate();
+            container.Register<IEqualityService, EqualityService>(new SingletonFactory())
+                     .Validate();
 
             var service1 = container.Resolve<IEqualityService>();
             var service2 = container.Resolve<IEqualityService>();
@@ -26,8 +26,8 @@ namespace Plug.Tests.Equality
         {
             var container = new Container();
 
-            container.Register<IEqualityService, EqualityService>(new TransientFactory());
-            container.Validate();
+            container.Register<IEqualityService, EqualityService>(new TransientFactory())
+                     .Validate();
 
             var service1 = container.Resolve<IEqualityService>();
             var service2 = container.Resolve<IEqualityService>();

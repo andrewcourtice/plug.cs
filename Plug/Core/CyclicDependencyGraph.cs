@@ -20,6 +20,11 @@ namespace Plug.Core
             _visitedNodes = new Dictionary<T, bool>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <exception cref="Exceptions.ClosedLoopException{T}">Thrown when a closed loop is detected in the dependency graph</exception>
         private void VisitNode(T node)
         {
             bool visiting;
@@ -45,6 +50,12 @@ namespace Plug.Core
             _sortedNodes.Add(node);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dependencyResolver"></param>
+        /// <exception cref="Exceptions.ClosedLoopException{T}">Thrown when a closed loop is detected in the dependency graph</exception>
+        /// <returns></returns>
         public IList<T> Sort(Func<T, IEnumerable<T>> dependencyResolver)
         {
             resolver = dependencyResolver;
